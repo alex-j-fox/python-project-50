@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "hexlet-code"
+version = "0.1.0"
+description = ""
+authors = ["alex-j-fox <alex-j-fox@yandex.ru>"]
+readme = "README.md"
+packages = [{include = "gendiff"}]
+repository = "https://github.com/alex-j-fox/python-project-50"
+classifiers = [
+    "Environment :: Console",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.8.10",
+    "Intended Audience :: Education",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Games/Entertainment"
+]
+
+[tool.poetry.dependencies]
+python = "^3.8.10"
+
+[tool.poetry.scripts]
+gendiff = "gendiff.scripts.gendiff:main"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
