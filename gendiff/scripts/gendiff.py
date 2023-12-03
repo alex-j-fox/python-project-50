@@ -19,16 +19,15 @@ def generate_diff(file_path1, file_path2):
     sorted_unique_keys = sorted({*file1.keys(), *file2.keys()})
     diff_list = ['{']
     for key in sorted_unique_keys:
-        if key in file1 and key not in file2:
+        if key not in file2:
             diff_list.append(f'  - {key}: {file1[key]}')
-        elif key in file2 and key not in file1:
+        elif key not in file1:
+            diff_list.append(f'  + {key}: {file2[key]}')
+        elif file1[key] != file2[key]:
+            diff_list.append(f'  - {key}: {file1[key]}')
             diff_list.append(f'  + {key}: {file2[key]}')
         else:
-            if file1[key] != file2[key]:
-                diff_list.append(f'  - {key}: {file1[key]}')
-                diff_list.append(f'  + {key}: {file2[key]}')
-            else:
-                diff_list.append(f'    {key}: {file1[key]}')
+            diff_list.append(f'    {key}: {file1[key]}')
     diff_list.append('}')
     diff = '\n'.join(diff_list)
     return diff
