@@ -9,20 +9,21 @@ repository = "https://github.com/alex-j-fox/python-project-50"
 classifiers = [
     "Environment :: Console",
     "Natural Language :: English",
-    "Programming Language :: Python :: 3.8.10",
+    "Programming Language :: Python :: 3.10.12",
     "Intended Audience :: Education",
     "Intended Audience :: End Users/Desktop",
     "Topic :: Games/Entertainment"
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8.10"
+python = "^3.10.12"
 
 [tool.poetry.scripts]
 gendiff = "gendiff.scripts.gendiff:main"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.1.0"
+pytest = "^7.4.3"
 
 [build-system]
 requires = ["poetry-core"]
