@@ -4,6 +4,7 @@
 import json
 import argparse
 from typing import List
+from .parser import parse
 
 
 def encode_boolean_and_none_value_in_dict(dictionary: dict) -> None:
@@ -14,7 +15,6 @@ def encode_boolean_and_none_value_in_dict(dictionary: dict) -> None:
         :type dictionary: dict
         :return: None
         """
-    # """Encodes Boolean and None values into JSON format"""
     for key, value in dictionary.items():
         if type(value) is bool or value is None:
             dictionary[key] = json.dumps(value)
@@ -73,15 +73,13 @@ def generate_diff(file_path1, file_path2):
         :return:
         :rtype: str
         """
-    with open(file_path1) as f1:
-        with open(file_path2) as f2:
-            file1 = json.load(f1)
-            file2 = json.load(f2)
-            encode_boolean_and_none_value_in_dict(file1)
-            encode_boolean_and_none_value_in_dict(file2)
-            sorted_unique_keys = sorted({*file1.keys(), *file2.keys()})
-            diff_list = generate_diff_list(file1, file2, sorted_unique_keys)
-            return '\n'.join(diff_list)
+    file1 = parse(file_path1)
+    file2 = parse(file_path2)
+    encode_boolean_and_none_value_in_dict(file1)
+    encode_boolean_and_none_value_in_dict(file2)
+    sorted_unique_keys = sorted({*file1.keys(), *file2.keys()})
+    diff_list = generate_diff_list(file1, file2, sorted_unique_keys)
+    return '\n'.join(diff_list)
 
 
 def main():
