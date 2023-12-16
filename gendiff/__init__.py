@@ -1,9 +1,14 @@
-from gendiff.scripts.gendiff import generate_diff
-from gendiff.scripts.gendiff import encode_boolean_and_none_value_in_dict as \
-    json_encode
+from .gen_diff import generate_diff
+from .gen_diff import parse_command_line
+from .parser import parse
+from .formatters.stylish import get_stylish_dict
+from .formatters.stylish import make_stylish
 
 
 __all__ = (
     'generate_diff',
-    'json_encode',
+    'parse_command_line',
+    'parse',
+    'get_stylish_dict',
+    'make_stylish',
 )
