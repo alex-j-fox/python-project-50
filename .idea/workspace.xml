@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2bf44085-3ecb-4482-a700-570963368a19" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/my-check.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/my-check.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/python-project-50.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/python-project-50.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,14 +39,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/gendiff" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/gendiff/tests/fixtures" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/gendiff" />
       <recent name="$PROJECT_DIR$/gendiff/tests/fixtures" />
+      <recent name="$PROJECT_DIR$/gendiff" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/gendiff" />
@@ -100,8 +101,32 @@
       <workItem from="1702121224355" duration="25587000" />
       <workItem from="1702487096540" duration="17754000" />
       <workItem from="1702669294164" duration="30376000" />
-      <workItem from="1702752097692" duration="4609000" />
+      <workItem from="1702752097692" duration="15636000" />
+      <workItem from="1702837641186" duration="2470000" />
+      <workItem from="1702849254019" duration="16822000" />
     </task>
+    <task id="LOCAL-00001" summary="Update my-check.yml">
+      <created>1702759446460</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1702759446460</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add plain.py&#10;&#10;Added gendiff/formatters/plain.py&#10;Updated gendiff/formatters/stylish.py">
+      <created>1702901474114</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1702901474114</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Update README.md, Makefile, pyproject.toml, gen_diff.py, poetry.lock&#10;&#10;Updated asciinema in README.md&#10;Added verbose-test to Makefile&#10;Added argcomplete to pyproject.toml&#10;Added ardcomplete.autocomplete() to gen_diff.py">
+      <created>1702901868231</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1702901868231</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -112,11 +137,29 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update my-check.yml" />
+    <MESSAGE value="Add plain.py&#10;&#10;Added gendiff/formatters/plain.py&#10;Updated gendiff/formatters/stylish.py" />
+    <MESSAGE value="Update README.md, Makefile, pyproject.toml, gen_diff.py, poetry.lock&#10;&#10;Updated asciinema in README.md&#10;Added verbose-test to Makefile&#10;Added argcomplete to pyproject.toml&#10;Added ardcomplete.autocomplete() to gen_diff.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update README.md, Makefile, pyproject.toml, gen_diff.py, poetry.lock&#10;&#10;Updated asciinema in README.md&#10;Added verbose-test to Makefile&#10;Added argcomplete to pyproject.toml&#10;Added ardcomplete.autocomplete() to gen_diff.py" />
   </component>
 </project>
