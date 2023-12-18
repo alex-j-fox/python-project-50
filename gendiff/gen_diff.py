@@ -1,7 +1,9 @@
+import argcomplete
 import argparse
 
 from .formatters.stylish import get_stylish_dict
 from .formatters.stylish import make_stylish
+from .formatters.plain import make_plain
 from .get_diff import get_diff
 from .parser import parse
 
@@ -26,7 +28,7 @@ def generate_diff(file_path1, file_path2, format: str = 'stylish') -> str:
     if format == 'stylish':
         return make_stylish(get_stylish_dict(diff))
     elif format == 'plain':
-        print('!P!L!A!I!N!')
+        return make_plain(diff)
     elif format == 'json':
         print('!J!S!O!N!')
 
@@ -43,5 +45,6 @@ def parse_command_line():
                         choices=['stylish', 'plain', 'json'],
                         default='stylish',
                         metavar='FORMAT')
+    argcomplete.autocomplete(parser)
     args = parser.parse_args()
     return args.first_file, args.second_file, args.format
