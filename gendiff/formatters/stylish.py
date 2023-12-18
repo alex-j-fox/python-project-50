@@ -10,7 +10,7 @@ def encode_boolean_and_none_value_in_dict(dictionary: dict) -> None:
         :return: None
         """
     for key, value in dictionary.items():
-        if type(value) is bool or value is None:
+        if isinstance(value, bool) or value is None:
             dictionary[key] = json.dumps(value)
 
 
@@ -60,19 +60,6 @@ def get_stylish_dict(diff: dict) -> dict:
     """
     stylish_dict = {}
     for v in diff.values():
-        # key = v['key']
-        # status = v['status']
-        # value = v['value']
-        # if status == 'removed':
-        #     stylish_dict[f'- {key}'] = value
-        # elif status == 'added':
-        #     stylish_dict[f'+ {key}'] = value
-        # elif status == 'updated':
-        #     new_value = v['value_upd']
-        #     stylish_dict[f'- {key}'] = value
-        #     stylish_dict[f'+ {key}'] = new_value
-        # elif status == 'unchanged':
-        #     stylish_dict[f'  {key}'] = value
         if v["status"] == 'nested':
             stylish_dict[f'  {v["key"]}'] = get_stylish_dict(v["value"])
         else:
@@ -86,9 +73,12 @@ def make_stylish(data: [dict, any], replacer: str = ' ',
     """Преобразует словарь в обьемную строку.
 
     :param data: Словарь
-    :param replacer:
-    :param spaces_count:
-    :return:
+    :param replacer: Символ-заполнитель перед строкой
+    :type replacer: str
+    :param spaces_count: Количество повторов 'replacer'
+    :type spaces_count: int
+    :return: Обьемная строка
+    :rtype: str
     """
     if not isinstance(data, dict):
         return str(data)
