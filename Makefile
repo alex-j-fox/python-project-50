@@ -21,3 +21,6 @@ test:
 	
 verbose-test:
 	poetry run pytest -vv
+	
+test-cov:
+	poetry run pytest --cov=gendiff --cov-report=html

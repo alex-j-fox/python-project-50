@@ -2,3 +2,7 @@ __pycache__/
 .venv
 dist/
 .python-version
+htmlcov/
+.coveragerc
+.coverage
+.pytest_cache/
