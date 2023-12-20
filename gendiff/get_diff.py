@@ -6,7 +6,7 @@ def get_diff(data1, data2):
     'value' содержит значение родителя из исходного словаря,
     'value_upd' содержит обновленное значение родителя"""
     total_dict = {}
-    sorted_keys = sorted(data1 | data2)
+    sorted_keys = sorted({**data1, **data2})
     for key in sorted_keys:
         if key not in data2:
             total_dict[key] = {
