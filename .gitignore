@@ -1,8 +1,10 @@
 __pycache__/
 .venv
+.idea/
 dist/
 .python-version
-htmlcov/
-.coveragerc
-.coverage
 .pytest_cache/
+htmlcov/
+.coverage
+.coveragerc
+coverage.xml
