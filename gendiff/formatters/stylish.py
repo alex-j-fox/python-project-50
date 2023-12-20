@@ -80,14 +80,11 @@ def make_stylish(data: [dict, any], replacer: str = ' ',
     :return: Обьемная строка
     :rtype: str
     """
-    if not isinstance(data, dict):
-        return str(data)
     stylish = ['{']
 
     def walk(sub, depth):
         indent = spaces_count * depth
         shifted_indent = indent - 2
-        nonlocal stylish
         for key, value in sub.items():
             if key.startswith((' ', '-', '+')):
                 indent = shifted_indent
