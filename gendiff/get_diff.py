@@ -25,7 +25,7 @@ def get_diff(data1, data2):
                 'key': key,
                 'status': 'nested',
                 'value': get_diff(data1[key], data2[key])
-                }
+            }
         elif data1[key] != data2[key]:
             total_dict[key] = {
                 'key': key,
