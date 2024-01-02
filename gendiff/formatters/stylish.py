@@ -1,12 +1,13 @@
 import json
+from typing import Dict, Any
 
 
-def encode_boolean_and_none_value_in_dict(dictionary: dict) -> None:
+def encode_boolean_and_none_value_in_dict(dictionary: Dict[str, Any]) -> None:
     """
         Encodes Boolean and None dictionary values into JSON format.
 
         :param dictionary:
-        :type dictionary: dict
+        :type dictionary: Dict[str, Any]
         :return: None
         """
     for key, value in dictionary.items():
@@ -14,13 +15,13 @@ def encode_boolean_and_none_value_in_dict(dictionary: dict) -> None:
             dictionary[key] = json.dumps(value)
 
 
-def get_value(dictionary: dict) -> dict:
+def get_value(dictionary: Dict[str, Any]) -> Dict[str, Any]:
     """Получает из словаря значения с заданным ключом.
 
     :param dictionary: Словарь
-    :type dictionary: dict
+    :type dictionary: Dict[str, Any]
     :return:
-    :rtype: dict
+    :rtype: Dict[str, Any]
     """
     key = dictionary['key']
     status = dictionary['status']
@@ -36,7 +37,7 @@ def get_value(dictionary: dict) -> dict:
         return {f'  {key}': value}
 
 
-def get_stylish_dict(diff: dict) -> dict:
+def get_stylish_dict(diff: Dict[str, Any]) -> Dict[str, Any]:
     """Преобразует сортированный обьединенный словарь двух исходных словарей.
 
         {
@@ -54,12 +55,15 @@ def get_stylish_dict(diff: dict) -> dict:
     обьект словаря с различиями
 
     :param diff: Словарь
-    :type diff: dict
+    :type diff: Dict[str, Any]
     :return: Форматированный словарь
-    :rtype: dict
+    :rtype: Dict[str, Any]
     """
     stylish_dict = {}
     for v in diff.values():
+        if v['status'] not in ('nested', 'removed', 'added', 'updated',
+                               'unchanged'):
+            raise ValueError('Unexpected "status" value')
         if v["status"] == 'nested':
             stylish_dict[f'  {v["key"]}'] = get_stylish_dict(v["value"])
         else:
@@ -68,21 +72,22 @@ def get_stylish_dict(diff: dict) -> dict:
     return stylish_dict
 
 
-def make_stylish(data: [dict, any], replacer: str = ' ',
-                 spaces_count: int = 4):
+def make_stylish(data: Dict[str, Any], replacer: str = ' ',
+                 spaces_count: int = 4) -> str:
     """Преобразует словарь в обьемную строку.
 
     :param data: Словарь
-    :param replacer: Символ-заполнитель перед строкой
+    :type data: Dict[str, Any]
+    :param replacer: Символ-заполнитель перед строкой (по умолчанию ' ')
     :type replacer: str
-    :param spaces_count: Количество повторов 'replacer'
+    :param spaces_count: Количество повторов 'replacer' (по умолчанию 4)
     :type spaces_count: int
     :return: Обьемная строка
     :rtype: str
     """
     stylish = ['{']
 
-    def walk(sub, depth):
+    def walk(sub: Dict[str, Any], depth: int) -> None:
         indent = spaces_count * depth
         shifted_indent = indent - 2
         for key, value in sub.items():
@@ -95,6 +100,6 @@ def make_stylish(data: [dict, any], replacer: str = ' ',
                 walk(value, depth + 1)
                 stylish.append(f'{replacer * (shifted_indent + 2)}{"}"}')
 
-    walk(data, 1)
+    walk(get_stylish_dict(data), 1)
     stylish.append('}')
     return '\n'.join(stylish)

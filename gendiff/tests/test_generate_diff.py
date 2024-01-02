@@ -38,13 +38,13 @@ plain1_json, plain2_json, plain1_yml, plain2_yml, \
 
 
 @pytest.mark.parametrize('file1, file2, expected_diff, format', [
-    (plain1_json, plain2_json, read(stylish_plain), 'stylish'),
-    (plain1_yml, plain2_yml, read(stylish_plain), 'stylish'),
-    (nested1_yml, nested2_yml, read(stylish_nested), 'stylish'),
-    (nested1_yml, nested2_yml, read(stylish_nested), 'stylish'),
-    (nested1_yml, nested2_json, read(plain_diff), 'plain'),
-    (nested1_yml, nested2_json, read(json_diff), 'json'),
+    (plain1_json, plain2_json, stylish_plain, 'stylish'),
+    (plain1_yml, plain2_yml, stylish_plain, 'stylish'),
+    (nested1_yml, nested2_yml, stylish_nested, 'stylish'),
+    (nested1_yml, nested2_yml, stylish_nested, 'stylish'),
+    (nested1_yml, nested2_json, plain_diff, 'plain'),
+    (nested1_yml, nested2_json, json_diff, 'json'),
 ])
 def test_generate_diff(file1, file2, expected_diff, format):
     diff = generate_diff(file1, file2, format)
-    assert diff == expected_diff
+    assert diff == read(expected_diff)

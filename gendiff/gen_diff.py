@@ -1,38 +1,59 @@
 import argparse
+from typing import Dict, Any
 
 import argcomplete
 
 from .formatters.json import make_json
 from .formatters.plain import make_plain
-from .formatters.stylish import get_stylish_dict
 from .formatters.stylish import make_stylish
 from .get_diff import get_diff
 from .parser import parse
 
 
-def generate_diff(file_path1, file_path2, format: str = 'stylish') -> str:
+def choose_output_format(difference: Dict[str, Any], format: str) -> str:
+    """В зависимости от формата вызывает необходимый форматер
+
+    В случае несоответствия формата выбрасывает исключение ValueError
+    :param difference: Форматированный словарь
+    :type difference: Dict[str, Any]
+    :param format: Обьёмный, плоский или JSON
+    :type format: str
+    :return: Строковый тип данных
+    :rtype: str
+    :raises ValueError: Если формат не соответствует ожидаемому
     """
-        Генерирует обьемную строку с результатом сравнения двух файлов .json
-        или .yaml в заданном формате (stylish, plain, json).
+    if format == 'stylish':
+        return make_stylish(difference)
+    elif format == 'plain':
+        return make_plain(difference)
+    elif format == 'json':
+        return make_json(difference)
+    else:
+        raise ValueError('Incorrect argument value')
+
+
+def generate_diff(file_path1: str, file_path2: str,
+                  format: str = 'stylish') -> str:
+    """ Генерирует строку с результатом сравнения двух файлов .json или .yaml
+
+        Возможные варианты вывода:
+        stylish - обьемная строка,
+        plain - плоский формат вывода,
+        JSON формат
 
         :param file_path1: Путь до файла 1
         :type file_path1: str
         :param file_path2: Путь до файла 2
         :type file_path2: str
-        :param format: Обьемный, плоский или JSON
+        :param format: Обьемный, плоский или JSON (по умолчанию 'stylish')
         :type format: str
-        :return:
+        :return: Строковый тип данных
         :rtype: str
         """
     file1 = parse(file_path1)
     file2 = parse(file_path2)
     diff = get_diff(file1, file2)
-    if format == 'stylish':
-        return make_stylish(get_stylish_dict(diff))
-    elif format == 'plain':
-        return make_plain(diff)
-    elif format == 'json':
-        return make_json(diff)
+    return choose_output_format(diff, format)
 
 
 def parse_command_line():
