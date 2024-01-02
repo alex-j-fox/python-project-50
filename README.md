@@ -50,6 +50,23 @@ make package install
 ```
 [![asciicast](https://asciinema.org/a/omodt3ibXmIsy21j9mgdZnA5E.svg)](https://asciinema.org/a/omodt3ibXmIsy21j9mgdZnA5E)
 
+4. Gendiff documentation
+```
+usage: gendiff [-h] [-f FORMAT] [--version] first_file second_file
+
+Compares two configuration files and shows a difference.
+
+positional arguments:
+  first_file
+  second_file
+
+options:
+  -h, --help            show this help message and exit
+  -f FORMAT, --format FORMAT
+                        set format of output: stylish, plain, json.
+  --version             show gendiff version
+```
+
 ## Examples of using the program
 
 ### Comparison of flat files (JSON) 

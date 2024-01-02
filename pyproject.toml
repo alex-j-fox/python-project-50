@@ -9,7 +9,7 @@ repository = "https://github.com/alex-j-fox/python-project-50"
 classifiers = [
     "Environment :: Console",
     "Natural Language :: English",
-    "Programming Language :: Python :: 3.10.12",
+    "Programming Language :: Python :: 3.10",
     "Intended Audience :: Education",
     "Intended Audience :: End Users/Desktop",
     "Topic :: Games/Entertainment"
@@ -19,7 +19,6 @@ classifiers = [
 python = "^3.10.12"
 pyyaml = "^6.0.1"
 argcomplete = "^3.2.1"
-pytest-cov = "^4.1.0"
 
 [tool.poetry.scripts]
 gendiff = "gendiff.scripts.gendiff:main"
@@ -27,6 +26,7 @@ gendiff = "gendiff.scripts.gendiff:main"
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.1.0"
 pytest = "^7.4.3"
+pytest-cov = "^4.1.0"
 
 [build-system]
 requires = ["poetry-core"]
