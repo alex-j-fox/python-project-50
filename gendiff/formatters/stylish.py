@@ -1,105 +1,108 @@
-import json
+from itertools import chain
 from typing import Dict, Any
 
 
-def encode_boolean_and_none_value_in_dict(dictionary: Dict[str, Any]) -> None:
+def format_value(value: Any) -> str:
     """
-        Encodes Boolean and None dictionary values into JSON format.
+        Форматирует булевые значения и None в JSON-подобный формат.
 
-        :param dictionary:
-        :type dictionary: Dict[str, Any]
-        :return: None
+        :param value: Значение, которое нужно отформатировать
+        :type value: Any
+        :return: Форматированная строка
+        :rtype: str
+    """
+    if isinstance(value, bool):
+        return str(value).lower()
+    elif value is None:
+        return 'null'
+    return str(value)
+
+
+def get_stylish_value(value: Any, depth: int, replacer: str = ' ',
+                      spaces_count: int = 4) -> str:
+    """
+        Формирует строковое представление значения в JSON-подобном формате.
+
+        :param value: Значение, которое нужно отформатировать
+        :type value: Any
+        :param depth: Текущая глубина рекурсии
+        :type depth: int
+        :param replacer: Символ-заполнитель перед строкой (по умолчанию ' ')
+        :type replacer: str
+        :param spaces_count: Количество повторений 'replacer' (по умолчанию 4)
+        :type spaces_count: int
+        :return: Строковое представление значения в JSON-подобном формате
+        :rtype: str
         """
-    for key, value in dictionary.items():
-        if isinstance(value, bool) or value is None:
-            dictionary[key] = json.dumps(value)
+    if isinstance(value, dict):
+        line = []
+        indent = replacer * spaces_count
+        for key, val in value.items():
+            line.append(f'\n{indent * (depth + 1)}{key}: '
+                        f'{get_stylish_value(val, depth + 1)}')
+        stylish_value = chain('{', line, ['\n', indent * depth, '}'])
+        return ''.join(stylish_value)
+
+    return format_value(value)
 
 
-def get_value(dictionary: Dict[str, Any]) -> Dict[str, Any]:
-    """Получает из словаря значения с заданным ключом.
-
-    :param dictionary: Словарь
-    :type dictionary: Dict[str, Any]
-    :return:
-    :rtype: Dict[str, Any]
+def make_line(data: Dict[str, Any], depth: int, prefix: str = '  ',
+              key: str = 'value', indent: str = '  ') -> str:
     """
-    key = dictionary['key']
-    status = dictionary['status']
-    value = dictionary['value']
-    if status == 'removed':
-        return {f'- {key}': value}
-    elif status == 'added':
-        return {f'+ {key}': value}
-    elif status == 'updated':
-        new_value = dictionary['value_upd']
-        return {f'- {key}': value, f'+ {key}': new_value}
-    elif status == 'unchanged':
-        return {f'  {key}': value}
+    Формирует строку для отображения значения в структуре диффа.
 
-
-def get_stylish_dict(diff: Dict[str, Any]) -> Dict[str, Any]:
-    """Преобразует сортированный обьединенный словарь двух исходных словарей.
-
-        {
-          "- key1": "value1",
-          "+ key2": None,
-          "  key3": 23,
-          "  key4": {
-            ...,
-            }
-        }
-    где
-    '-' - ключ отсутствует во втором исходном словаре или имеет другое значение,
-    '+' - ключ отсутствует в первом исходном словаре или имеет другое значение,
-    ' ' - ключ с идентичным значением есть в обоих словарях или имеет вложенный
-    обьект словаря с различиями
-
-    :param diff: Словарь
-    :type diff: Dict[str, Any]
-    :return: Форматированный словарь
-    :rtype: Dict[str, Any]
+    :param data: Словарь с данными
+    :type data: dict
+    :param depth: Текущая глубина рекурсии
+    :type depth: int
+    :param prefix: Префикс для строки (по умолчанию '  ')
+    :type prefix: str
+    :param key: Ключ для получения значения из словаря (по умолчанию 'value')
+    :type key: str
+    :param indent: Строка с отступом (по умолчанию '  ')
+    :type indent: str
+    :return: Строка для отображения значения в структуре диффа
+    :rtype: str
     """
-    stylish_dict = {}
-    for v in diff.values():
-        if v['status'] not in ('nested', 'removed', 'added', 'updated',
-                               'unchanged'):
-            raise ValueError('Unexpected "status" value')
-        if v["status"] == 'nested':
-            stylish_dict[f'  {v["key"]}'] = get_stylish_dict(v["value"])
-        else:
-            stylish_dict.update(get_value(v))
-    encode_boolean_and_none_value_in_dict(stylish_dict)
-    return stylish_dict
+    line = f'{indent * depth}{prefix}{data["key"]}: ' \
+           f'{get_stylish_value(data[key], depth + 1)}'
+    return line
 
 
 def make_stylish(data: Dict[str, Any], replacer: str = ' ',
-                 spaces_count: int = 4) -> str:
+                 spaces_count: int = 2) -> str:
     """Преобразует словарь в обьемную строку.
 
     :param data: Словарь
     :type data: Dict[str, Any]
     :param replacer: Символ-заполнитель перед строкой (по умолчанию ' ')
     :type replacer: str
-    :param spaces_count: Количество повторов 'replacer' (по умолчанию 4)
+    :param spaces_count: Количество повторов 'replacer' (по умолчанию 2)
     :type spaces_count: int
     :return: Обьемная строка
     :rtype: str
     """
-    stylish = ['{']
 
-    def walk(sub: Dict[str, Any], depth: int) -> None:
-        indent = spaces_count * depth
-        shifted_indent = indent - 2
-        for key, value in sub.items():
-            if key.startswith((' ', '-', '+')):
-                indent = shifted_indent
-            if not isinstance(value, dict):
-                stylish.append(f'{replacer * indent}{key}: {str(value)}')
-            else:
-                stylish.append(f'{replacer * indent}{key}: {"{"}')
-                walk(value, depth + 1)
-                stylish.append(f'{replacer * (shifted_indent + 2)}{"}"}')
+    def walk(node, depth):
+        indent = replacer * spaces_count * (depth + 1)
+        shifted_indent = indent * spaces_count
+        lines = []
+        for k, v in node.items():
+            status = v['status']
+            value = v['value']
+            if status == 'nested':
+                lines.append(f'{shifted_indent}{k}: {walk(value, depth + 1)}')
+            if status == 'removed':
+                lines.append(f'{indent}{make_line(v, depth, "- ")}')
+            elif status == 'added':
+                lines.append(f'{indent}{make_line(v, depth, "+ ")}')
+            elif status == 'updated':
+                lines.append(f'{indent}{make_line(v, depth, "- ")}')
+                lines.append(
+                    f'{indent}{make_line(v, depth, "+ ", "value_upd")}')
+            elif status == 'unchanged':
+                lines.append(f'{indent}{make_line(v, depth)}')
+        stylish = chain('{', lines, ["    " * depth + '}'])
+        return '\n'.join(stylish)
 
-    walk(get_stylish_dict(data), 1)
-    stylish.append('}')
-    return '\n'.join(stylish)
+    return walk(data, 0)
