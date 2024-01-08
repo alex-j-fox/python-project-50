@@ -15,7 +15,6 @@ Gendiff is a program that determines the difference between two data structures.
 ## Minimal requirements
 
 - Python version 3.10
-- Git version 2.25
 - Poetry version 1.5
 
 ## Installation

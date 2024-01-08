@@ -27,4 +27,4 @@ selfcheck:
 
 check: selfcheck test lint
 
-.PHONY: install build publish lint test selfcheck check
+.PHONY: install build publish package-install lint test verbose-test test-coverage selfcheck check
