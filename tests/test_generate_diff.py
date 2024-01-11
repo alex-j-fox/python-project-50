@@ -16,35 +16,18 @@ def read(file_path):
     return result
 
 
-files = [
-    'plain1.json',
-    'plain2.json',
-    'plain1.yml',
-    'plain2.yml',
-    'nested1.json',
-    'nested2.json',
-    'nested1.yml',
-    'nested2.yml',
-    'plain_diff_stylish_format.txt',
-    'nested_diff_stylish_format.txt',
-    'nested_diff_plain_format.txt',
-    'nested_diff_json_format.txt'
-]
-
-plain1_json, plain2_json, plain1_yml, plain2_yml, \
-    nested1_json, nested2_json, nested1_yml, nested2_yml, \
-    stylish_plain, stylish_nested, plain_diff, \
-    json_diff = map(get_fixtures_path, files)
-
-
 @pytest.mark.parametrize('file1, file2, expected_diff, format', [
-    (plain1_json, plain2_json, stylish_plain, 'stylish'),
-    (plain1_yml, plain2_yml, stylish_plain, 'stylish'),
-    (nested1_yml, nested2_yml, stylish_nested, 'stylish'),
-    (nested1_yml, nested2_yml, stylish_nested, 'stylish'),
-    (nested1_yml, nested2_json, plain_diff, 'plain'),
-    (nested1_yml, nested2_json, json_diff, 'json'),
+    ('plain1.json', 'plain2.json', 'plain_diff_stylish_format.txt', 'stylish'),
+    ('plain1.yml', 'plain2.yml', 'plain_diff_stylish_format.txt', 'stylish'),
+    ('nested1.yml', 'nested2.yml', 'nested_diff_stylish_format.txt', 'stylish'),
+    ('nested1.yml', 'nested2.yml', 'nested_diff_stylish_format.txt', 'stylish'),
+    ('nested1.yml', 'nested2.json', 'nested_diff_plain_format.txt', 'plain'),
+    ('nested1.yml', 'nested2.json', 'nested_diff_json_format.txt', 'json'),
 ])
 def test_generate_diff(file1, file2, expected_diff, format):
-    diff = generate_diff(file1, file2, format)
-    assert diff == read(expected_diff)
+    file1_data = get_fixtures_path(file1)
+    file2_data = get_fixtures_path(file2)
+    expected_diff_data = read(get_fixtures_path(expected_diff))
+
+    diff = generate_diff(file1_data, file2_data, format)
+    assert diff == expected_diff_data
